@@ -1,17 +1,15 @@
 import click
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, make_response, redirect, url_for
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def index():
-    return '<h1>Hello, Flask!</h1>'
-
-
 @app.route('/hello')
 def hello():
-    name = request.args.get('name', 'Flask')
+    name = request.args.get('name')
+    if name is None:
+        name = request.cookies.get('name', 'Anny')
     return '<h1>Hello, %s!</h1>' % name
 
 
@@ -52,6 +50,13 @@ def edit_post(post_id):
         post['content'] = newPost['content']
         return jsonify({'status': 200, 'message': 'ok', 'data': {}})
 
+
+# cookie
+@app.route('/set/<name>')
+def set_cookie(name):
+    response = make_response(redirect(url_for('hello')))
+    response.set_cookie('name', name)
+    return response
 
 @app.route('/brew/coffee')
 def make_coffee():
