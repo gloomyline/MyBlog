@@ -1,7 +1,22 @@
 import click
-from flask import Flask, request, abort, jsonify, make_response, redirect, url_for
+import os
+from flask import Flask, request, abort, jsonify, make_response, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'secret_key')
+
+
+@app.route('/login')
+def login():
+    session['logged_in'] = True
+    return redirect(url_for('hello'))
+
+
+@app.route('/logout')
+def logout():
+    if 'logged_in' in session:
+        session.pop('logged_in')
+    return redirect(url_for('hello'))
 
 
 @app.route('/')
@@ -10,7 +25,12 @@ def hello():
     name = request.args.get('name')
     if name is None:
         name = request.cookies.get('name', 'Anny')
-    return '<h1>Hello, %s!</h1>' % name
+    response = '<h1>Hello, %s!</h1>' % name
+    if 'logged_in' in session:
+        response += '[Authenticated]'
+    else:
+        response += '[Not Authenticated]'
+    return response
 
 
 # URL variables transverter
