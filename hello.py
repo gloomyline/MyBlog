@@ -1,5 +1,6 @@
 import click
 import os
+from urllib import urlparse, urljoin
 from flask import Flask, request, abort, jsonify, make_response, redirect, url_for, session
 
 app = Flask(__name__)
@@ -17,6 +18,36 @@ def logout():
     if 'logged_in' in session:
         session.pop('logged_in')
     return redirect(url_for('hello'))
+
+def is_safe_url(target):
+    host = request.host_url
+    ref_url = urlparse(host)
+    test_url = urlparse(urljoin(host, target))
+    return test_url.schema in ('http', 'https') and ref_url.netloc == test_url.netloc
+
+
+def redirect_back(default='hello', **kwargs):
+    """redirect back within default page hello"""
+    for target in request.args.get('next'), request.referrer:
+        if not target:
+            continue
+        if is_safe_url(target):
+            return redirect(target)
+    return redirect(url_for(default, **kwargs))
+
+
+@app.route('/foo')
+def foo():
+    return '<h1>Foo page.</h1><a href="%s">do something</a>' % url_for('do_somethig', next=request.full_path)
+
+
+@app.route('/bar')
+def bar():
+    return '<h1>Bar page.</h1><a href="%s">do something</a>' % url_for('do_somethig', next=request.full_path)
+
+@app.route('/do-somenthing')
+def do_somethig():
+    return redirect_back()
 
 
 @app.route('/')
@@ -51,7 +82,7 @@ post = {
     'name': 'post1',
     'content': 'This is post1.'
 }
-@app.route('/foo/<post_id>', methods=['GET'])
+@app.route('/post/<post_id>', methods=['GET'])
 def get_post(post_id):
     if not post_id == post['id']:
         abort(404)
@@ -59,7 +90,7 @@ def get_post(post_id):
         return jsonify({'status': 200, 'message': 'ok', 'data': post})
 
 
-@app.route('/foo/<post_id>', methods=['POST'])
+@app.route('/post/<post_id>', methods=['POST'])
 def edit_post(post_id):
     print(post_id)
     if not post_id == post['id']:
