@@ -1,7 +1,8 @@
 import click
 import os
-from urllib import urlparse, urljoin
-from flask import Flask, request, abort, jsonify, make_response, redirect, url_for, session
+from urllib.parse import urlparse, urljoin
+from flask import Flask, request, abort, jsonify, make_response, redirect, \
+    url_for, session, render_template
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret_key')
@@ -50,7 +51,6 @@ def do_somethig():
     return redirect_back()
 
 
-@app.route('/')
 @app.route('/hello')
 def hello():
     name = request.args.get('name')
@@ -101,6 +101,34 @@ def edit_post(post_id):
         post['content'] = newPost['content']
         return jsonify({'status': 200, 'message': 'ok', 'data': {}})
 
+
+# templates engine jinja2 example
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+user = {
+    'username': 'Alan Wang',
+    'bio': 'A boy who loves movies and music.',
+}
+
+movies = [
+    {'name': 'My Neighbor Totoro', 'year': '1988'},
+    {'name': 'Three Colours trilogy', 'year': '1993'},
+    {'name': 'Forrest Gump', 'year': '1994'},
+    {'name': 'Perfect Blue', 'year': '1997'},
+    {'name': 'The Matrix', 'year': '1999'},
+    {'name': 'Memento', 'year': '2000'},
+    {'name': 'The Bucket list', 'year': '2007'},
+    {'name': 'Black Swan', 'year': '2010'},
+    {'name': 'Gone Girl', 'year': '2014'},
+    {'name': 'CoCo', 'year': '2017'},
+]
+
+@app.route('/watch-list')
+def watch_list():
+    return render_template('watchlist.html', user=user, movies=movies)
 
 # cookie
 @app.route('/set/<name>')
