@@ -103,5 +103,13 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+<<<<<<< HEAD
 # pycharm project configuration files
 .idea/
+=======
+# pipfile lock
+Pipfile.lock
+
+# pycharm files
+.idea
+>>>>>>> master
