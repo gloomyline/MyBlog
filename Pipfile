@@ -9,6 +9,7 @@ watchdog = "*"
 
 [packages]
 flask = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.7"

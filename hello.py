@@ -3,15 +3,12 @@ import os
 from urllib.parse import urlparse, urljoin
 from flask import Flask, request, abort, jsonify, make_response, redirect, \
     url_for, session, render_template
+from forms import LoginForm
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret_key')
-
-
-@app.route('/login')
-def login():
-    session['logged_in'] = True
-    return redirect(url_for('hello'))
+# upload file max size
+# app.config[MAX_CONTENT_LENGTH] = 3 * 1024 * 1024
 
 
 @app.route('/logout')
@@ -129,6 +126,24 @@ movies = [
 @app.route('/watch-list')
 def watch_list():
     return render_template('watchlist.html', user=user, movies=movies)
+
+
+# forms
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        form = LoginForm()
+        return render_template('login.html', form=form)
+    else:
+        session['logged_in'] = True
+        return redirect(url_for('hello'))
+"""
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    form = uploadForm()
+    return render_template('upload.html', form=form)
+"""
+
 
 # cookie
 @app.route('/set/<name>')
