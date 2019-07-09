@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length
 # from flask_wtf.file import FileField, FileRequired, FileAllowed
 
@@ -10,6 +10,15 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
     submit = SubmitField('log in')
 
+class NewNoteForm(FlaskForm):
+    body = TextAreaField('Body', validators=[DataRequired()])
+    submit = SubmitField('Save')
+
+class EditNoteForm(NewNoteForm):
+    submit = SubmitField('Update')
+
+class DeleteNoteForm(FlaskForm):
+    submit = SubmitField('Delete')
 
 """
 class UploadForm(FlaskForm):
