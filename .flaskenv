@@ -1,5 +1,5 @@
 # application entrance file name
-FLASK_APP=hello
+FLASK_APP=board
 # current env
 FLASK_ENV=development
 # enable server visible in local network
