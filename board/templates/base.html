@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Say Hello!{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    {% block style %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <h1 class="text-center display-4">
+            <a href="{{ url_for('index') }}" class="text-success"><strong>Say Hello!</strong></a>
+            <small style="font-size: 24px;" class="text-muted">to the world!</small>
+        </h1>
+    </header>
+    <main>
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-info">
+            <button type="button" data-dismiss="alert" class="close">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="text-center">
+        {% block footer %}
+        <p><a id="bottom" href="#" title="Go Top">&uarr;</a></p>
+        {% endblock %}
+    </footer>
+    {% block scripts %}
+    {{ bootstrap.load_js() }}
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+    {{ moment.locale(auto_detect=True) }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

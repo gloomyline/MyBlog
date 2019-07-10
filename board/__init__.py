@@ -2,9 +2,12 @@
 # @Author:              AlanWang
 # @Date:                2019-07-09 18:01:30
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-09 18:21:30
+# @Last Modified time:  2019-07-10 11:58:34
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask('board')
 app.config.from_pyfile('settings.py')
@@ -13,4 +16,10 @@ app.jinja_env.lstrip_blocks = True
 
 db = SQLAlchemy(app)
 
-# from MyBlog import views, errors, commands
+bootstrap = Bootstrap(app)
+
+moment = Moment(app)
+
+toolbar = DebugToolbarExtension(app)
+
+from board import views, commands
