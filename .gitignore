@@ -103,13 +103,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-<<<<<<< HEAD
 # pycharm project configuration files
 .idea/
-=======
+
 # pipfile lock
 Pipfile.lock
 
-# pycharm files
-.idea
->>>>>>> master
+# data db
+data-dev.db
+data.db
