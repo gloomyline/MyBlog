@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:20:31
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-10 17:41:22
+# @Last Modified time:  2019-07-11 11:17:35
 import os
 from flask import Flask
 from myblog.settings import config
@@ -58,7 +58,11 @@ def register_shell_context(app):
 
 
 def register_template_context(app):
-    pass
+    @app.context_processor
+    def make_template_context():
+        admin = Admin.query.first()
+        categories = Category.query.order_by(Category.name).all()
+        return dict(admin=admin, categories=categories)
 
 
 def register_errors(app):
