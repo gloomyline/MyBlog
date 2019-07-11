@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-09 17:56:08
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-10 14:25:09
+# @Last Modified time:  2019-07-11 10:45:51
 
 import os
 
@@ -11,6 +11,7 @@ basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 class BaseConfig(object):
     SECRET_KEY = os.getenv('SECRET_KEY', 'secret')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    BOOTSTRAP_SERVE_LOCAL = True
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = 465
     MAIL_USE_SSL = True
