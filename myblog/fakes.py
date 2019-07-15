@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+# @comment:             data mock helpers
 # @Author:              AlanWang
 # @Date:                2019-07-10 16:42:58
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-10 18:16:34
+# @Last Modified time:  2019-07-15 10:07:51
 import random
 
 from faker import Faker
 from myblog.models import Admin, Category, Post, Comment
 from myblog.extensions import db
 
-fake = Faker()
+# argument 'zh_CN' is for Chinese
+fake = Faker('zh_CN')
 
 
 def fake_admin():
@@ -41,7 +43,7 @@ def fake_posts(count=50):
     for i in range(count):
         post = Post(
             title=fake.word(),
-            body=fake.sentence(),
+            body=fake.text(),
             timestamp=fake.date_time_this_year(),
             category=Category.query.get(random.randint(1, Category.query.count())),
         )
