@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:33:08
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-15 09:12:04
+# @Last Modified time:  2019-07-15 09:19:12
 from flask import Blueprint, render_template, current_app
 from myblog.models import Category, Post, Comment
 
@@ -31,4 +31,5 @@ def show_category(category_id):
 
 @blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
-    return render_template('blog/post.html')
+    post = Post.query.get_or_404(post_id)
+    return render_template('blog/post.html', post=post)
