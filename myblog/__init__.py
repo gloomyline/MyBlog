@@ -2,10 +2,12 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:20:31
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-11 11:17:35
+# @Last Modified time:  2019-07-12 16:55:59
 import os
-from flask import Flask
+from flask import Flask, render_template, request
+from flask_login import current_user
 from myblog.settings import config
+from myblog.models import Admin, Category, Post, Comment
 from myblog.views.auth import auth_bp
 from myblog.views.admin import admin_bp
 from myblog.views.blog import blog_bp
@@ -54,7 +56,7 @@ def register_blueprints(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db)
+        return dict(db=db, Admin=Admin, Category=Category, Post=Post, Comment=Comment)
 
 
 def register_template_context(app):

@@ -25,8 +25,8 @@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                {{ render_nav_item('index', 'Home') }}
-                {{ render_nav_item('about', 'About') }}
+                {{ render_nav_item('blog.index', 'Home') }}
+                {{ render_nav_item('blog.about', 'About') }}
             </ul>
         </div>
     </div>
@@ -46,8 +46,9 @@
 
 {% block scripts %}
 {{ bootstrap.load_js() }}
-<script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+{{ moment.locale('zh-cn') }}
+<script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
 </body>
 </html>
