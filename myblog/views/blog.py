@@ -2,22 +2,26 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:33:08
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-11 14:33:04
-from flask import Blueprint, render_template
+# @Last Modified time:  2019-07-15 09:12:04
+from flask import Blueprint, render_template, current_app
 from myblog.models import Category, Post, Comment
 
 
 blog_bp = Blueprint('blog', __name__)
 
 
-@blog_bp.route('/')
-def index():
-    return render_template('views/index.html')
+@blog_bp.route('/', defaults={'page': 1})
+@blog_bp.route('/page/<int:page>')
+def index(page):
+    per_page = current_app.config['MYBLOG_POST_PER_PAGE']
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page, error_out=True)
+    posts = pagination.items
+    return render_template('blog/index.html', posts=posts, pagination=pagination)
 
 
 @blog_bp.route('/about')
 def about():
-    return render_template('views/about.html')
+    return render_template('about.html')
 
 
 @blog_bp.route('/category/<int:category_id>')

@@ -15,6 +15,7 @@ flask-migrate = "*"
 flask-mail = "*"
 flask-ckeditor = "*"
 bootstrap-flask = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.7"
