@@ -3,7 +3,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 16:42:58
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-15 10:07:51
+# @Last Modified time:  2019-07-15 16:11:25
 import random
 
 from faker import Faker
@@ -46,6 +46,7 @@ def fake_posts(count=50):
             body=fake.text(),
             timestamp=fake.date_time_this_year(),
             category=Category.query.get(random.randint(1, Category.query.count())),
+            can_comment=random.randint(0, 1) > 0,
         )
         db.session.add(post)
     db.session.commit()

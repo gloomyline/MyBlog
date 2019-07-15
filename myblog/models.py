@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 15:37:47
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-10 18:10:44
+# @Last Modified time:  2019-07-15 15:04:18
 from myblog.extensions import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -36,6 +36,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', back_populates='posts')
+    can_comment = db.Column(db.Boolean)
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
 
 
