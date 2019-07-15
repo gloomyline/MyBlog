@@ -46,4 +46,4 @@ My personal blog, a general cms(content management system), share with anyone.
 ### 六、Flask中的Forms
 
 # TODO List
-[ ] - 1. 固定链接 slug
+- [ ] 1. 固定链接 slug
