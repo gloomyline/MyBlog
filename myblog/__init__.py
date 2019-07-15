@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:20:31
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-12 16:55:59
+# @Last Modified time:  2019-07-15 15:46:25
 import os
 from flask import Flask, render_template, request
 from flask_login import current_user
@@ -11,7 +11,7 @@ from myblog.models import Admin, Category, Post, Comment
 from myblog.views.auth import auth_bp
 from myblog.views.admin import admin_bp
 from myblog.views.blog import blog_bp
-from myblog.extensions import bootstrap, db, moment, ckeditor, mail
+from myblog.extensions import bootstrap, db, moment, ckeditor, mail, login_manager
 from myblog.commands import register_commands
 
 def create_app(config_name=None):
@@ -46,6 +46,7 @@ def register_extensions(app):
     moment.init_app(app)
     ckeditor.init_app(app)
     mail.init_app(app)
+    login_manager.init_app(app)
 
 def register_blueprints(app):
     app.register_blueprint(blog_bp)

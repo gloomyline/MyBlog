@@ -2,10 +2,10 @@
 # @Author:              AlanWang
 # @Date:                2019-07-11 11:58:09
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-11 14:19:08
+# @Last Modified time:  2019-07-15 15:01:30
 from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, HiddenField, validationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, HiddenField, ValidationError
 from wtforms.validators import DataRequired, Email, URL, Optional, Length
 from myblog.models import Category
 
@@ -21,6 +21,7 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(1, 60)])
     category = SelectField('Category', coerce=int, default=1)
     body = CKEditorField('Body', validators=[DataRequired()])
+    can_comment = BooleanField('CommentAble', validators=[DataRequired()])
     submit = SubmitField()
 
     def __init__(self, *args, **kwargs):
@@ -34,7 +35,7 @@ class CategoryForm(FlaskForm):
 
     def validate_name(self, field):
         if Category.query.filter(name=field.data).first():
-            raise validationError('Name already exsited.')
+            raise ValidationError('Name already exsited.')
 
 
 class CommentForm(FlaskForm):
@@ -45,5 +46,5 @@ class CommentForm(FlaskForm):
     submit = SubmitField()
 
 
-class AdminForm(CommentForm):
+class AdminCommentForm(CommentForm):
     author = HiddenField()
