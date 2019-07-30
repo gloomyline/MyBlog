@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock title %} - MyBlog</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     {{ bootstrap.load_css() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
@@ -15,7 +15,7 @@
 </head>
 <body>
 {% block nav %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="position: fixed;left: 0;top: 0;width: 100%;z-index: 11;">
     <div class="container">
         <a class="navbar-brand" href="/">MyBlog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
@@ -33,7 +33,7 @@
 </nav>
 {% endblock nav %}
 
-<main class="container">
+<main class="container" style="padding-top: 60px;">
     {% for message in get_flashed_messages(with_categories=True) %}
     <div class="alert alert-{{ message[0] }}" role="alert">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
