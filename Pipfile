@@ -17,6 +17,11 @@ flask-ckeditor = "*"
 bootstrap-flask = "*"
 flask-login = "*"
 unidecode = "*"
+flask-moment = "*"
+faker = "*"
+text-unidecode = "*"
+flask-debugtoolbar = "*"
+werkzeug = "==0.15.4"
 
 [requires]
 python_version = "3.7"

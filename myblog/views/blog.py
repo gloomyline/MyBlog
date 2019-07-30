@@ -2,13 +2,14 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 14:33:08
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-15 16:22:12
-from flask import request, Blueprint, render_template, current_app, flash, redirect, url_for
+# @Last Modified time:  2019-07-30 14:25:36
+from flask import request, Blueprint, render_template, current_app, flash, redirect, url_for, make_response
 from flask_login import current_user
 from myblog.extensions import db
 from myblog.models import Category, Post, Comment
 from myblog.forms import AdminCommentForm, CommentForm
 from myblog.emails import send_new_comment_email, send_new_reply_email
+from myblog.utils import redirect_back
 
 blog_bp = Blueprint('blog', __name__)
 
@@ -87,3 +88,12 @@ def reply_comment(comment_id):
         flash('Comment is disabled.', 'warning')
         return redirect(url_for('.show_post', post_id=comment.post.id))
     return redirect(url_for('.show_post', post_id=comment.post_id, reply=comment_id, author=comment.author) + '#comment-form')
+
+
+@blog_bp.route('/change-theme/<theme_name>')
+def change_theme(theme_name):
+    if theme_name not in current_app.config['MYBLOG_THEMES'].keys():
+        abort(404)
+    response = make_response(redirect_back())
+    response.set_cookie('theme', theme_name, max_age=30*24*60*60)
+    return response

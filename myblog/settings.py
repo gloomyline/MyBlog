@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-09 17:56:08
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-11 10:45:51
+# @Last Modified time:  2019-07-30 14:31:13
 
 import os
 
@@ -23,6 +23,9 @@ class BaseConfig(object):
     MYBLOG_POST_PER_PAGE = 10
     MYBLOG_MANAGE_POST_PER_PAGE = 15
     MYBLOG_COMMENT_PER_PAGE = 15
+
+    # ('theme name', 'display name')
+    MYBLOG_THEMES = {'perfect blue':'Perfect Blue', 'black_swan': 'Black_Swan'}
 
 class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-dev.db')
