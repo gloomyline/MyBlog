@@ -2,7 +2,7 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 15:37:47
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-15 15:04:18
+# @Last Modified time:  2019-07-30 18:49:24
 from myblog.extensions import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,6 +21,19 @@ class Admin(db.Model):
 
     def check_password(self, password):
         return check_passwrod_hash(self.password_hash, password)
+
+
+class User(Admin):
+    def __init__(self, *args, **kwargs):
+        super(User, self).__init__(*args, **kwargs)
+
+    @property
+    def password(self):
+        return AttributeError(u'该属性不可读')
+    
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
 
 
 class Category(db.Model):

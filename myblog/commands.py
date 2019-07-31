@@ -2,9 +2,10 @@
 # @Author:              AlanWang
 # @Date:                2019-07-10 17:30:27
 # @Last Modified by:    AlanWang
-# @Last Modified time:  2019-07-10 17:53:14
+# @Last Modified time:  2019-07-31 09:21:37
 import click
 from myblog.extensions import db
+from myblog.models import Admin, Category
 from myblog.fakes import fake_admin, fake_categories, fake_comments, fake_posts
 
 
@@ -26,3 +27,37 @@ def register_commands(app):
         click.echo('Generating %d comments' % comment)
         fake_comments(comment)
         click.echo('done.')
+
+    @app.cli.command()
+    @click.option('--username', prompt=True, help='The username used to login.')
+    @click.option('--password', prompt=True, hide_input=True)
+    def init(username, password):
+        """Building MyBlog, just for you."""
+        click.echo('Initializing the database...')
+        db.create_all()
+
+        admin = Admin.query.first()
+        if admin: # 如果数据库中已经有管理员记录就更新用户和密码
+            click.echo('The administrator already exsists, updating...')
+            admin.username = username
+            admin.set_password(password)
+        else:
+            click.echo('Creating the temporary administrator account...')
+            admin = Admin(
+                username=username,
+                blog_title='MyBlog',
+                blog_sub_title="Discover the beauty everywhere.",
+                name='Admin',
+                about='Some things about you'
+            )
+            admin.set_password(password)
+            db.session.add(admin)
+
+            category = Category.query.first()
+            if category is None:
+                click.echo('Creating the default category...')
+                category = Category(name='default')
+                db.session.add(category)
+
+            db.session.commit()
+            click.echo('Done.')

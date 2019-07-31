@@ -33,7 +33,7 @@
 </nav>
 {% endblock nav %}
 
-<main class="container" style="padding-top: 60px;">
+<main class="container" style="padding-top: 100px;">
     {% for message in get_flashed_messages(with_categories=True) %}
     <div class="alert alert-{{ message[0] }}" role="alert">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
